@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TextRPG_OOP_
 {
+    /// <summary>
+    /// The basic info needed for a plasmoid type enemy
+    /// </summary>
     internal class Plasmoid : Enemy
     {
         //All info needed for plasmoid enemies. 

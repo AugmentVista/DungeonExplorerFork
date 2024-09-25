@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 
 namespace TextRPG_OOP_
-{ 
+{
+    /// <summary>
+    /// Is the player, Handles all player movment and interactions.
+    /// </summary>
     internal class Player : Character
     {
         public int playerDamage;
@@ -25,30 +28,40 @@ namespace TextRPG_OOP_
         public ItemManager itemManager;
         public Player(Map map, ItemManager IM, Settings settings)
         {
-            avatar = ((char)2);
-            healthSystem.IsAlive = true;
+            avatar = ((char)2); //Sets player to smiley face.
+            healthSystem.IsAlive = true; // initilizes player as alive.
             gameIsOver = false;
             gameWon = false;
-            playerCoins = settings.playerStartingCoins;
-            StartingDamage = settings.PlayerBaseDamager;
-            playerDamage = StartingDamage;
-            PlayerMaxHP = settings.playerMaxHP;
-            healthSystem.SetHealth(PlayerMaxHP);
+            playerCoins = settings.playerStartingCoins; //starts player with 0 coins.
+            StartingDamage = settings.PlayerBaseDamager; //Sets player starting damage
+            playerDamage = StartingDamage; 
+            PlayerMaxHP = settings.playerMaxHP; //Sets stating health
+            healthSystem.SetHealth(PlayerMaxHP);//hands starting value to health system
             name = "Koal"; // Testing for passing string.
-            enemyHitName = "";
-            gameMap = map;
-            itemManager = IM;
+            enemyHitName = ""; //clears enemy hit for starting
+            gameMap = map; //hands map to player
+            itemManager = IM; //hands item manager to player
             //Console.Write("Initialized" + playerName);
         }
+        /// <summary>
+        /// Used at start to prevent player from leaving screen.
+        /// </summary>
         public void Start()
         {
             SetMaxPlayerPosition(gameMap);
         }
+        /// <summary>
+        /// Gets player input and updates player based on interactions. 
+        /// </summary>
         public void Update()
         {
             GetPlayerInput(gameMap);
             UpPlayerStats();
         }
+        /// <summary>
+        /// used to keep player in map
+        /// </summary>
+        /// <param name="map"></param>
         public void SetMaxPlayerPosition(Map map)
         {
             int mapX;
@@ -58,11 +71,20 @@ namespace TextRPG_OOP_
             position.maxX = mapX - 1;
             position.maxY = mapY - 1;
         }
+        /// <summary>
+        /// Sets player position to x/y postions. 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void SetPlayerPosition(int x, int y)
         {
             position.x = x;
             position.y = y;
         }
+        /// <summary>
+        /// Input method, needs map to check for collision
+        /// </summary>
+        /// <param name="collisionMap"></param>
         public void GetPlayerInput(Map collisionMap)
         {
             int moveX;
@@ -319,11 +341,13 @@ namespace TextRPG_OOP_
                 }
                 if(collisionMap.activeMap[position.y,position.x] == '$')
                 {
+                    //ends game when touching the "Grail"
                     gameWon = true;
                     gameIsOver = true;
                 }
                 if(collisionMap.activeMap[position.y,position.x] == '~')
                 {
+                    //Advances to next level
                     collisionMap.levelNumber += 1;
                     collisionMap.ChangeLevels();
                     SetPlayerPosition(collisionMap.playerX,collisionMap.playerY);
@@ -334,10 +358,14 @@ namespace TextRPG_OOP_
                 }
                 if(playerInput.Key == ConsoleKey.Escape)
                 {
+                    //leaves game
                     Environment.Exit(0);
                 }
             }
         }
+        /// <summary>
+        /// Used to increase player stats based on collions.
+        /// </summary>
         void UpPlayerStats()
         {
             if(playerCoins < 3)
@@ -369,6 +397,9 @@ namespace TextRPG_OOP_
                 playerDamage = StartingDamage+15;
             }
         }
+        /// <summary>
+        /// Draws player to map.
+        /// </summary>
         public void Draw()
         {
             // used to draw the player

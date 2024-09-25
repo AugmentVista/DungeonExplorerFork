@@ -8,6 +8,9 @@ using System.Diagnostics;
 
 namespace TextRPG_OOP_
 {
+    /// <summary>
+    /// Runs and manages game functions. Most method calls live here.
+    /// </summary>
     internal class GameManager
     {
         private Player mainPlayer;
@@ -15,6 +18,9 @@ namespace TextRPG_OOP_
         public Map gameMap;
         public ItemManager itemManager;
         public Settings settings;
+        /// <summary>
+        /// Gets all references so game is ready to start up
+        /// </summary>
         private void StartUp()
         {
             Console.CursorVisible = false;
@@ -24,7 +30,10 @@ namespace TextRPG_OOP_
             gameMap = new Map(itemManager);
             enemyManager = new EnemyManager(gameMap, settings);
             mainPlayer = new Player(gameMap,itemManager, settings);
-        }  
+        } 
+        /// <summary>
+        /// Calls Start methods for all things needed in the game.
+        /// </summary>
         private void SetUpGame()
         {
             Debug.WriteLine("Setting up starting map");
@@ -36,6 +45,9 @@ namespace TextRPG_OOP_
             mainPlayer.Draw();
             enemyManager.Draw();
         }
+        /// <summary>
+        /// Handels game ending, for both win and loss.
+        /// </summary>
         private void EndGame()
         {
             string FormatString = "You had {0} coins, {1} armor, and {2} HP remaining!";
@@ -63,6 +75,9 @@ namespace TextRPG_OOP_
                 PlayGame();
             }
         }
+        /// <summary>
+        /// Primary loop that gameplay takes place in. Calls all updates and Draws.
+        /// </summary>
         private void DungeonGameLoop()
         {
             Debug.WriteLine("Running GameLoop");
@@ -81,6 +96,9 @@ namespace TextRPG_OOP_
             }
             EndGame();
         }
+        /// <summary>
+        /// Is the way to start the game
+        /// </summary>
         public void PlayGame()
         {
             Debug.WriteLine("Starting Game");
@@ -89,7 +107,9 @@ namespace TextRPG_OOP_
             SetUpGame();
             DungeonGameLoop();
         }
-        
+        /// <summary>
+        /// Checks if player is dead
+        /// </summary>
         private void CheckPlayerCondition()
         {
             Debug.WriteLine("Checking player");
@@ -98,6 +118,9 @@ namespace TextRPG_OOP_
                 mainPlayer.gameIsOver = true;
             }
         }
+        /// <summary>
+        /// Runs game intro
+        /// </summary>
         void Intro()
         {
             Debug.WriteLine("Into!");

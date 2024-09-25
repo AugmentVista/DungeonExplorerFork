@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TextRPG_OOP_
 {
+    /// <summary>
+    /// The basic info needed for a contruct type enemy
+    /// </summary>
     internal class Construct : Enemy
     {
         public int BaseHP;

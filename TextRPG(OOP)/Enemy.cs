@@ -7,6 +7,9 @@ using System.Diagnostics;
 
 namespace TextRPG_OOP_
 {
+    /// <summary>
+    /// Base class for all enemies. Handles all enemy movement.
+    /// </summary>
     internal class Enemy : Character
     {
         //public HealthSystem EnemyHealth; old
@@ -31,6 +34,10 @@ namespace TextRPG_OOP_
             moveRoll = new Random();
             //Console.Write("Initialized enemy");
         }
+        /// <summary>
+        /// Used to keep enemy in map
+        /// </summary>
+        /// <param name="map"></param>
         public void SetEnemyMaxPosition(Map map)
         {
             int mapX;
@@ -40,7 +47,10 @@ namespace TextRPG_OOP_
             enemyMaxX = mapX - 1;
             enemyMaxY = mapY - 1;
         }
-        
+        /// <summary>
+        /// Handels enemy movement and interactions based on type, map needed for collisions.
+        /// </summary>
+        /// <param name="gameMap"></param>
         public void MoveEnemy(Map gameMap)
         {
             int enemyMoveX;
@@ -508,6 +518,10 @@ namespace TextRPG_OOP_
                 }
             }
         }
+        /// <summary>
+        /// Sets enemy level to the floor number, used for scaling enemy difculty.
+        /// </summary>
+        /// <param name="level"></param>
         public void SetLevelNumber(int level)
         {
             levelNumber = level;

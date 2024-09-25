@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TextRPG_OOP_
 {
+    /// <summary>
+    /// The basic info needed for a goblin folk type enemy
+    /// </summary>
     internal class GoblinFolk : Enemy
     {
         public int BaseHP;

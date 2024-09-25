@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace TextRPG_OOP_
 {
+    /// <summary>
+    /// Base class for player and all enemies. holds position and health system.
+    /// </summary>
     internal abstract class Character
     {
         public HealthSystem healthSystem;

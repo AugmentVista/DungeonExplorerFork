@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TextRPG_OOP_
 {
+    /// <summary>
+    /// Holds the base values for all Characater
+    /// </summary>
     internal class Settings
     {
         //Base values for all stats. 

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace TextRPG_OOP_
 {
+    /// <summary>
+    /// Places and manage all items on each floor. 
+    /// </summary>
     internal class ItemManager
     {
         public List<Item> items;
@@ -15,23 +18,42 @@ namespace TextRPG_OOP_
         {
             items = new List<Item>();
         }
+        /// <summary>
+        /// Generates item based on type and places them in the x/y positions
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void AddItemToList(string type, int x, int y)
         {
             Item item = new Item(type,x,y,gameMap);
             items.Add(item);
         }
+        /// <summary>
+        /// Initilizastion, passes in map.
+        /// </summary>
+        /// <param name="map"></param>
         public void Start(Map map)
         {
             gameMap = map;
         }
+        /// <summary>
+        /// Clears item list for level change
+        /// </summary>
         public void ClearItemList()
         {
             items.Clear();
         }
+        /// <summary>
+        /// Calls method to draw all items to the map
+        /// </summary>
         public void Draw()
         {
             DrawItemsToMap();
         }
+        /// <summary>
+        /// Draws the items to the map passed in by the start function
+        /// </summary>
         public void DrawItemsToMap()
         {
             for(int i = 0; i < items.Count(); i++)
@@ -45,10 +67,18 @@ namespace TextRPG_OOP_
                 }
             }
         }
+        /// <summary>
+        /// Updates items, checks if player is standing on an item
+        /// </summary>
+        /// <param name="player"></param>
         public void Update(Player player)
         {
             ChckItemPositions(player);
         }
+        /// <summary>
+        /// If player is on an item, updates stats based on pickups
+        /// </summary>
+        /// <param name="player"></param>
         public void ChckItemPositions(Player player)
         {
             for(int i = 0; i < items.Count(); i++)

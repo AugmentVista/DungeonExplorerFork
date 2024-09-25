@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace TextRPG_OOP_
 {
+    /// <summary>
+    /// Any and all types of pickups
+    /// </summary>
     internal class Item
     {
         public string itemType;

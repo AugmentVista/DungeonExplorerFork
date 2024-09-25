@@ -9,6 +9,9 @@ using System.Diagnostics;
 
 namespace TextRPG_OOP_
 {
+    /// <summary>
+    /// Handels and manages all enemies on each floor. 
+    /// </summary>
     internal class EnemyManager
     {
         public List<Enemy> enemiesList; 
@@ -22,6 +25,11 @@ namespace TextRPG_OOP_
             enemiesList = new List<Enemy>();
             enemySettings = settings;
         }
+        /// <summary>
+        /// Generates enemmy based on paramater type, and level number. level number used to determain enemy stats
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="levelNumber"></param>
         public void AddEnemiesToList(string type, int levelNumber)
         {
             if(type == "Plasmoid")
@@ -63,6 +71,9 @@ namespace TextRPG_OOP_
                 enemiesList.Add(goblinFolk);
             }
         }
+        /// <summary>
+        /// Goes through list of enemies and calls move function 
+        /// </summary>
         public void Update()
         {
             for(int i = 0; i < enemiesList.Count(); i++)
@@ -71,10 +82,17 @@ namespace TextRPG_OOP_
                 enemiesList[i].MoveEnemy(gameMap);
             }
         }
+        /// <summary>
+        /// Calls the drawn enemys to map function, passing in the Enemy list from enemy manager
+        /// </summary>
         public void Draw()
         {
             gameMap.DrawEnemiesToMap(enemiesList);
         }
+        /// <summary>
+        /// Selects random color for each enemy when generated
+        /// </summary>
+        /// <returns></returns>
         public ConsoleColor RandomConsoleColor()
         {
             Random colorRoll = new Random();
@@ -106,6 +124,11 @@ namespace TextRPG_OOP_
             }
             return RandomColor;
         }
+        /// <summary>
+        /// Counts number of enemies of desired type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         int EnemyTypeCount(string type)
         {
             int enemyCount = 0;
