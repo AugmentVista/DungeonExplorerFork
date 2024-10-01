@@ -37,6 +37,7 @@ namespace TextRPG_OOP_
         public int playerY;
         public int playerMaxX;
         public int playerMaxY;
+
         public List<Character> characters;
         public int enemyCount;
         public int itemCount;
@@ -45,6 +46,7 @@ namespace TextRPG_OOP_
         public EnemyManager enemyManager;
         public Player mainPlayer;
         public ItemManager itemManager;
+        public CollisionHandler collisionHandler;
         public Map(ItemManager IM) //Constructor
         {
             Initialization();
@@ -129,7 +131,7 @@ namespace TextRPG_OOP_
                         playerY = y-1;
                         levelChanged = true;
                         activeMap[y,x] = '#';
-                        mainPlayer.SetPlayerPosition(playerX,playerY);
+                        collisionHandler.SetPlayerPosition(playerX,playerY);
                     }
                     if(tile == '!' && levelChanged == false || tile == '?' && levelChanged == false
                     || tile == '&' && levelChanged == false || tile == '^' && levelChanged == false)

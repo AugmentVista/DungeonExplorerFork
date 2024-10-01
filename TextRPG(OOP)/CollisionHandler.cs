@@ -11,7 +11,7 @@ namespace TextRPG_OOP_
     /// <Summary>
     /// Handles Collision and player movement
     /// </Summary>
-    internal class CollisionHandler : Player
+    internal class CollisionHandler
     {
         public ConsoleKeyInfo playerInput;
         public Map map;

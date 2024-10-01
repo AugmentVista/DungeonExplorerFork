@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using static TextRPG_OOP_.CollisionHandler;
 
 namespace TextRPG_OOP_
 {
@@ -49,7 +48,7 @@ namespace TextRPG_OOP_
         public void Update()
         {
             ConsoleKeyInfo playerInput = Console.ReadKey(true);
-            collisionHandler.HandleMovement(playerInput.Key, gameMap, Direction.Up); // Pass the current direction as needed
+            collisionHandler.HandleMovement(playerInput.Key, gameMap, CollisionHandler.Direction.Up); // Pass the current direction as needed
             market.PlayerCoinsCheck();
         }
 
