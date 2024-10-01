@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
+    <Compile Include="CollisionHandler.cs" />
     <Compile Include="Construct.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="DungeonExplorer.cs" />

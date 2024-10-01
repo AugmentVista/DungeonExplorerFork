@@ -44,13 +44,13 @@ namespace TextRPG_OOP_
             enemyManager.Draw();
         }
         /// <summary>
-        /// Handels game ending, for both win and loss.
+        /// Ends the game, win or loss
         /// </summary>
         private void EndGame()
         {
             string FormatString = "You had {0} coins, {1} armor, and {2} HP remaining!";
             Debug.WriteLine("EndingGame");
-            if(mainPlayer.gameIsOver && mainPlayer.gameWon == true)
+            if(mainPlayer.gameIsOver && mainPlayer.gameWon)
             {
                 Debug.WriteLine("Player won");
                 Thread.Sleep(2000);
@@ -59,18 +59,18 @@ namespace TextRPG_OOP_
                 Console.WriteLine();
                 Console.WriteLine(string.Format(FormatString,mainPlayer.playerCoins,mainPlayer.healthSystem.armor,mainPlayer.healthSystem.health));
                 Console.WriteLine();
-                Console.WriteLine("CONGRADULATIONS!");
+                Console.WriteLine("CONGRATULATIONS!");
                 Thread.Sleep(3000);
                 Environment.Exit(0);
             }
-            if(mainPlayer.gameIsOver && mainPlayer.gameWon != true)
+            if(mainPlayer.gameIsOver && !mainPlayer.gameWon )
             {
                 Debug.WriteLine("Player lost");
                 Thread.Sleep(2000); 
                 Console.Clear();
                 Console.WriteLine("You have lost. Restarting game!");
                 Thread.Sleep(3000);
-                PlayGame();
+                Environment.Exit(0);
             }
         }
         /// <summary>
@@ -78,11 +78,11 @@ namespace TextRPG_OOP_
         /// </summary>
         private void DungeonGameLoop()
         {
-            Debug.WriteLine("Running GameLoop");
-            while(mainPlayer.gameIsOver != true && mainPlayer.gameWon != true)
+            do 
             {
                 Console.CursorVisible = false;
-                CheckPlayerCondition();
+                Debug.WriteLine("Running GameLoop");
+                IsPlayerDead();
                 gameMap.Update();
                 mainPlayer.Update();
                 gameMap.Draw();
@@ -92,10 +92,10 @@ namespace TextRPG_OOP_
                 enemyManager.Update();
                 enemyManager.Draw();
             }
-            EndGame();
+            while(!mainPlayer.gameIsOver && !mainPlayer.gameWon); // While game isn't over and player hasn't won
         }
         /// <summary>
-        /// Is the way to start the game
+        /// Starts game
         /// </summary>
         public void PlayGame()
         {
@@ -108,12 +108,12 @@ namespace TextRPG_OOP_
         /// <summary>
         /// Checks if player is dead
         /// </summary>
-        private void CheckPlayerCondition()
+        private void IsPlayerDead()
         {
-            Debug.WriteLine("Checking player");
             if(mainPlayer.healthSystem.IsAlive == false)
             {
                 mainPlayer.gameIsOver = true;
+                EndGame();
             }
         }
         /// <summary>
@@ -122,7 +122,7 @@ namespace TextRPG_OOP_
         void Intro()
         {
             Debug.WriteLine("Into!");
-            Console.WriteLine("Welcome to Dungeon Explorer!"); // placeholderTitle
+            Console.WriteLine("Welcome to Dungeon Explorer!");
             Console.WriteLine();
             Console.Write("Escape the dungeon and climb to the 2nd floor to find the chalace. ");
             gameMap.DrawFinalLoot();

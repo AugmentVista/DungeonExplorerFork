@@ -448,7 +448,7 @@ namespace TextRPG_OOP_
         /// <returns></returns>
         public bool CreatureInTarget(int y, int x)
         {
-            //Used to check if a creture is in target location. 
+            //Used to check if a creature is in target location. 
             bool IsTarget = false;
             for(index = 0; index < characters.Count(); index++)
             {

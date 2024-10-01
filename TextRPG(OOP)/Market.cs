@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace TextRPG_OOP_
 {
@@ -23,36 +24,13 @@ namespace TextRPG_OOP_
         }
 
 
-        public void UpPlayerStats()
+        public void PlayerCoinsCheck()
             {
                 if(player.playerCoins < 3)
                 {
-                    Console.WriteLine("coin");
+                    Debug.WriteLine("Player has " + player.playerCoins + " coins");
                     //player.playerDamage = player.StartingDamage;
                     //healthSystem.armor = 0;
-                }
-                if(player.playerCoins >= 3 && player.playerCoins < 6)
-                {
-                    player.playerDamage = player.StartingDamage+2;
-                    //healthSystem.armor = 1;
-                }
-                if(player.playerCoins >= 6 && player.playerCoins < 9)
-                {
-                    player.playerDamage = player.StartingDamage+3;
-                    //healthSystem.armor = 2;
-                }
-                if(player.playerCoins >= 9 && player.playerCoins < 15)
-                {
-                    player.playerDamage = player.StartingDamage+5;
-                    //healthSystem.armor = 3;
-                }
-                if(player.playerCoins >= 15 && player.playerCoins < 25)
-                {
-                    player.playerDamage = player.StartingDamage+7;
-                }
-                if(player.playerCoins >= 25)
-                {
-                    player.playerDamage = player.StartingDamage+15;
                 }
             }
         }
