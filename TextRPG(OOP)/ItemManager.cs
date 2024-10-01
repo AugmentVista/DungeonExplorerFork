@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TextRPG_OOP_
 {
@@ -73,13 +70,13 @@ namespace TextRPG_OOP_
         /// <param name="player"></param>
         public void Update(Player player)
         {
-            ChckItemPositions(player);
+            CheckItemPositions(player);
         }
         /// <summary>
         /// If player is on an item, updates stats based on pickups
         /// </summary>
         /// <param name="player"></param>
-        public void ChckItemPositions(Player player)
+        public void CheckItemPositions(Player player)
         {
             for(int i = 0; i < items.Count(); i++)
             {

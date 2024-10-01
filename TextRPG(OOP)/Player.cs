@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Diagnostics;
 
 namespace TextRPG_OOP_
@@ -26,22 +21,24 @@ namespace TextRPG_OOP_
         public Map gameMap;
         public char avatar;
         public ItemManager itemManager;
-        public Player(Map map, ItemManager IM, Settings settings)
+        public Market market;
+        public Player(Map map, ItemManager IM, Settings settings, Market market)
         {
             avatar = ((char)2); //Sets player to smiley face.
             healthSystem.IsAlive = true; // initilizes player as alive.
             gameIsOver = false;
             gameWon = false;
             playerCoins = settings.playerStartingCoins; //starts player with 0 coins.
-            StartingDamage = settings.PlayerBaseDamager; //Sets player starting damage
+            StartingDamage = settings.PlayerBaseDamage; //Sets player starting damage
             playerDamage = StartingDamage; 
             PlayerMaxHP = settings.playerMaxHP; //Sets stating health
             healthSystem.SetHealth(PlayerMaxHP);//hands starting value to health system
+            market?.SetPlayer(this);// Grabs reference from Market
             name = "Koal"; // Testing for passing string.
             enemyHitName = ""; //clears enemy hit for starting
             gameMap = map; //hands map to player
             itemManager = IM; //hands item manager to player
-            //Console.Write("Initialized" + playerName);
+            this.market = market; 
         }
         /// <summary>
         /// Used at start to prevent player from leaving screen.
@@ -56,7 +53,7 @@ namespace TextRPG_OOP_
         public void Update()
         {
             GetPlayerInput(gameMap);
-            UpPlayerStats();
+            market.UpPlayerStats();
         }
         /// <summary>
         /// used to keep player in map
@@ -107,7 +104,7 @@ namespace TextRPG_OOP_
                     {
                         moveY = 0; //Locks top of screen
                     }
-                    if(collisionMap.CretureInTarget(moveY, position.x) && collisionMap.index != 0) // Player should always be 0, need to prevent self harm.
+                    if(collisionMap.CreatureInTarget(moveY, position.x) && collisionMap.index != 0) // Player should always be 0, need to prevent self harm.
                     {
                         collisionMap.characters[collisionMap.index].healthSystem.TakeDamage(playerDamage);
                         enemyHitName = collisionMap.characters[collisionMap.index].name;
@@ -167,7 +164,7 @@ namespace TextRPG_OOP_
                     {
                         moveY = position.maxY; //Locks top of screen
                     }
-                    if(collisionMap.CretureInTarget(moveY, position.x) && collisionMap.index != 0)
+                    if(collisionMap.CreatureInTarget(moveY, position.x) && collisionMap.index != 0)
                     {
                         collisionMap.characters[collisionMap.index].healthSystem.TakeDamage(playerDamage);
                         enemyHitName = collisionMap.characters[collisionMap.index].name;
@@ -227,7 +224,7 @@ namespace TextRPG_OOP_
                     {
                         moveX = 0; //Locks top of screen
                     }
-                    if(collisionMap.CretureInTarget(position.y, moveX) && collisionMap.index != 0)
+                    if(collisionMap.CreatureInTarget(position.y, moveX) && collisionMap.index != 0)
                     {
                         collisionMap.characters[collisionMap.index].healthSystem.TakeDamage(playerDamage);
                         enemyHitName = collisionMap.characters[collisionMap.index].name;
@@ -287,7 +284,7 @@ namespace TextRPG_OOP_
                     {
                         moveX = position.maxX; //Locks top of screen
                     }
-                    if(collisionMap.CretureInTarget(position.y, moveX) && collisionMap.index != 0)
+                    if(collisionMap.CreatureInTarget(position.y, moveX) && collisionMap.index != 0)
                     {
                         collisionMap.characters[collisionMap.index].healthSystem.TakeDamage(playerDamage);
                         enemyHitName = collisionMap.characters[collisionMap.index].name;
@@ -364,39 +361,9 @@ namespace TextRPG_OOP_
             }
         }
         /// <summary>
-        /// Used to increase player stats based on collions.
+        /// Used to increase player stats based on collisions.
         /// </summary>
-        void UpPlayerStats()
-        {
-            if(playerCoins < 3)
-            {
-                playerDamage = StartingDamage;
-                //healthSystem.armor = 0;
-            }
-            if(playerCoins >= 3 && playerCoins < 6)
-            {
-                playerDamage = StartingDamage+2;
-                //healthSystem.armor = 1;
-            }
-            if(playerCoins >= 6 && playerCoins < 9)
-            {
-                playerDamage = StartingDamage+3;
-                //healthSystem.armor = 2;
-            }
-            if(playerCoins >= 9 && playerCoins < 15)
-            {
-                playerDamage = StartingDamage+5;
-                //healthSystem.armor = 3;
-            }
-            if(playerCoins >= 15 && playerCoins < 25)
-            {
-                playerDamage = StartingDamage+7;
-            }
-            if(playerCoins >= 25)
-            {
-                playerDamage = StartingDamage+15;
-            }
-        }
+        
         /// <summary>
         /// Draws player to map.
         /// </summary>

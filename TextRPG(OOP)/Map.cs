@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using System.Diagnostics;
 
 namespace TextRPG_OOP_
@@ -449,7 +446,7 @@ namespace TextRPG_OOP_
         /// <param name="y"></param>
         /// <param name="x"></param>
         /// <returns></returns>
-        public bool CretureInTarget(int y, int x)
+        public bool CreatureInTarget(int y, int x)
         {
             //Used to check if a creture is in target location. 
             bool IsTarget = false;

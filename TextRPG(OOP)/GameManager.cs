@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using System.Diagnostics;
 
@@ -14,6 +10,7 @@ namespace TextRPG_OOP_
     internal class GameManager
     {
         private Player mainPlayer;
+        public Market market;
         private EnemyManager enemyManager;
         public Map gameMap;
         public ItemManager itemManager;
@@ -28,8 +25,9 @@ namespace TextRPG_OOP_
             settings = new Settings();
             itemManager = new ItemManager();
             gameMap = new Map(itemManager);
-            enemyManager = new EnemyManager(gameMap, settings);
-            mainPlayer = new Player(gameMap,itemManager, settings);
+            enemyManager = new EnemyManager(gameMap, settings); 
+            market = new Market(mainPlayer, itemManager);
+            mainPlayer = new Player(gameMap,itemManager, settings, market);
         } 
         /// <summary>
         /// Calls Start methods for all things needed in the game.

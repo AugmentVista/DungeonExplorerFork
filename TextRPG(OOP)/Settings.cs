@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TextRPG_OOP_
 {
@@ -20,6 +17,6 @@ namespace TextRPG_OOP_
         public int GoblinFolkBaseDamage = 0;
         public int playerMaxHP = 10;
         public int playerStartingCoins = 0;
-        public int PlayerBaseDamager = 1;
+        public int PlayerBaseDamage = 1;
     }
 }
