@@ -37,7 +37,7 @@ namespace TextRPG_OOP_
             Debug.WriteLine("Setting up starting map");
             itemManager.Start(gameMap);
             gameMap.Start(mainPlayer, enemyManager);
-            mainPlayer.Start();
+            mainPlayer.Begin();
             gameMap.Draw();
             itemManager.Draw();
             mainPlayer.Draw();

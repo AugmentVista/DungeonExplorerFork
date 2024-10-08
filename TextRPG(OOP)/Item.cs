@@ -15,27 +15,30 @@ namespace TextRPG_OOP_
         public Char item;
         public ConsoleColor color;
         public int index;
+
+
+
         public Item(string type, int x, int y, Map map)
         {
             isActive = true;
             itemType = type;
             if(itemType == "Health Pickup")
             {
-                item = ((char)3);
+                item = (char)3;
                 color = ConsoleColor.Red;
                 gainAmount = map.levelNumber;
             }
             if(itemType == "Coin")
             {
-                item = ((char)164);
+                item = (char)164;
                 color = ConsoleColor.DarkYellow;
                 gainAmount = 1;
             }
             if(itemType == "Armor Pickup")
             {
-                item = ((char)21);
+                item = (char)21;
                 color = ConsoleColor.DarkBlue;
-                gainAmount = 1 * map.levelNumber;
+                gainAmount = 1;
             }
             position.x = x;
             position.y = y;

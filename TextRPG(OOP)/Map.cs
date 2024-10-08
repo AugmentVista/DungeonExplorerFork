@@ -19,6 +19,7 @@ namespace TextRPG_OOP_
         public char[,] activeMap;
         public int levelNumber;
         public bool levelChanged;
+        public bool CanMove;
         public char dungeonFloor = ((char)18); // ↕
         public char dungeonWall = ((char)35); // #
         public char spikeTrap = ((char)23); // ↨
@@ -131,7 +132,7 @@ namespace TextRPG_OOP_
                         playerY = y-1;
                         levelChanged = true;
                         activeMap[y,x] = '#';
-                        collisionHandler.SetPlayerPosition(playerX,playerY);
+                        mainPlayer.SetPlayerPosition(playerX,playerY);
                     }
                     if(tile == '!' && levelChanged == false || tile == '?' && levelChanged == false
                     || tile == '&' && levelChanged == false || tile == '^' && levelChanged == false)
@@ -528,7 +529,6 @@ namespace TextRPG_OOP_
         public bool CheckTile(int y, int x)
         {
             //Makes sure base tile is walkable. 
-            bool CanMove = false;
             if(activeMap[y,x] == dungeonWall)
             {
                 CanMove = false;

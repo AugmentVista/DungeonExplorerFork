@@ -11,6 +11,14 @@ namespace TextRPG_OOP_
         Player player;
         ItemManager itemManager;
 
+        public float[] portfoilo;
+
+        public float apple_Stock;
+
+        public float walmart_Stock;
+
+        public float amazon_Stock;
+
         public Market(Player player, ItemManager itemManager)
         {
             this.player = player;

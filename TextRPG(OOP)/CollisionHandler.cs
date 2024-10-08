@@ -15,116 +15,63 @@ namespace TextRPG_OOP_
     {
         public ConsoleKeyInfo playerInput;
         public Map map;
-        public ItemManager ItemManager;
+        public ItemManager itemManager;
         public Market market;
+        private Player player;
 
-        public CollisionHandler(Map map, ItemManager itemManager, Settings settings, Market market)
-       : base(map, itemManager, settings, market) // Call to base constructor
+        private int positionX;
+        private int positionY;
+
+        public CollisionHandler(Map map, ItemManager itemManager, Settings settings, Market market, Player player)
         {
             this.map = map;
-            this.ItemManager = itemManager;
+            this.itemManager = itemManager;
             this.market = market;
+            this.player = player; 
+            positionY = player.position.y;
+            positionX = player.position.x;
         }
 
         public enum Direction
         {
             Up, Right, Down, Left
-
-        }
-
-        public void SetPlayerPosition(int x, int y)
-        {
-            position.x = x;
-            position.y = y;
-        }
-
-        public void SetMaxPlayerPosition(Map map)
-        {
-            int mapX;
-            int mapY;
-            mapX = map.activeMap.GetLength(1);
-            mapY = map.activeMap.GetLength(0);
-            position.maxX = mapX - 1;
-            position.maxY = mapY - 1;
-        }
-
-        public void ConsumeItem(Map map)
-        {
-            itemManager.items[map.itemIndex].isActive = false;
-            itemManager.items[map.itemIndex].position.x = 0;
-            itemManager.items[map.itemIndex].position.y = 0;
-        }
-
-        public void HitCreature(int moveDirection, Map map)
-        {
-            if(map.CreatureInTarget(moveDirection, position.x) && map.index != 0) // Player should always be 0, need to prevent self harm.
-            {
-                map.characters[map.index].healthSystem.TakeDamage(playerDamage);
-                enemyHitName = map.characters[map.index].name;
-                enemyHitHealth = map.characters[map.index].healthSystem.health;
-                enemyHitArmor = map.characters[map.index].healthSystem.armor;
-                Debug.WriteLine("Player Hit " + enemyHitName);
-                return;
-            }
-        }
-
-         public void CollectItem(int moveDirection, Map map)
-        {
-            if(map.ItemInTarget(moveDirection, position.x) && itemManager.items[map.itemIndex].isActive)
-            {
-                if(itemManager.items[map.itemIndex].itemType == "Health Pickup" && healthSystem.health < PlayerMaxHP)
-                {
-                    ConsumeItem(map);
-                    healthSystem.Heal(itemManager.items[map.itemIndex].gainAmount, PlayerMaxHP);
-                }
-                if(itemManager.items[map.itemIndex].itemType == "Armor Pickup")
-                {
-                    ConsumeItem(map);
-                    healthSystem.armor += itemManager.items[map.itemIndex].gainAmount;
-                }
-                if(itemManager.items[map.itemIndex].itemType == "Coin")
-                {
-                    ConsumeItem(map);
-                    playerCoins += itemManager.items[map.itemIndex].gainAmount;
-                }
-            }
         }
 
         public (int moveX, int moveY) OutOfBoundsCheck(Direction currentDirection, Map map)
         {
-            int moveX = position.x;
-            int moveY = position.y;
+            int moveX = positionX;
+            int moveY = positionY;
             bool legalMove = false;
 
             switch (currentDirection)
             {
                 case Direction.Up:
-                    moveY = position.y - 1;
-                    if (moveY >= 0 && moveY < map.activeMap.GetLength(0))
+                    moveY = positionY - 1;
+                    if (moveY >= 0 && moveY < map.activeMap.GetLength(0) && map.CanMove)
                     {
                         legalMove = true;
                     }
                     break;
 
                 case Direction.Right:
-                    moveX = position.x + 1;
-                    if (moveX >= 0 && moveX < map.activeMap.GetLength(1))
+                    moveX = positionX + 1;
+                    if (moveX >= 0 && moveX < map.activeMap.GetLength(1) && map.CanMove)
                     {
                         legalMove = true;
                     }
                     break;
 
                 case Direction.Down:
-                    moveY = position.y + 1;
-                    if (moveY >= 0 && moveY < map.activeMap.GetLength(0))
+                    moveY = positionY + 1;
+                    if (moveY >= 0 && moveY < map.activeMap.GetLength(0) && map.CanMove)
                     {
                         legalMove = true;
                     }
                     break;
 
                 case Direction.Left:
-                    moveX = position.x - 1;
-                    if (moveX >= 0 && moveX < map.activeMap.GetLength(1))
+                    moveX = positionX - 1;
+                    if (moveX >= 0 && moveX < map.activeMap.GetLength(1) && map.CanMove)
                     {
                         legalMove = true;
                     }
@@ -133,16 +80,18 @@ namespace TextRPG_OOP_
 
             if (legalMove)
             {
-                position.x = moveX;
-                position.y = moveY;
+                positionX = moveX;
+                positionY = moveY;
+                player.SetPlayerPosition(positionX, positionY);
             }
 
             return (moveX, moveY); // Return the new moveX and moveY
         }
 
-
-        public void HandleMovement(ConsoleKey key, Map map, Direction currentDirection)
+        public void HandleMovement(ConsoleKeyInfo key, Map map)
         {
+            Direction currentDirection;
+
             while (Console.KeyAvailable)
             {
                 Console.ReadKey(true);
@@ -156,7 +105,6 @@ namespace TextRPG_OOP_
                     currentDirection = Direction.Up;
                     var (moveXUp, moveYUp) = OutOfBoundsCheck(currentDirection, map);
                     HitCreature(moveYUp, map);
-                    CollectItem(moveYUp, map);
                     CheckGameState(map, moveXUp, moveYUp); 
                     break;
 
@@ -165,7 +113,6 @@ namespace TextRPG_OOP_
                     currentDirection = Direction.Right;
                     var (moveXRight, moveYRight) = OutOfBoundsCheck(currentDirection, map);
                     HitCreature(moveXRight, map);
-                    CollectItem(moveXRight, map);
                     CheckGameState(map, moveXRight, moveYRight); 
                     break;
 
@@ -174,7 +121,6 @@ namespace TextRPG_OOP_
                     currentDirection = Direction.Down;
                     var (moveXDown, moveYDown) = OutOfBoundsCheck(currentDirection, map);
                     HitCreature(moveYDown, map);
-                    CollectItem(moveYDown, map);
                     CheckGameState(map, moveXDown, moveYDown); 
                     break;
 
@@ -183,7 +129,6 @@ namespace TextRPG_OOP_
                     currentDirection = Direction.Left;
                     var (moveXLeft, moveYLeft) = OutOfBoundsCheck(currentDirection, map);
                     HitCreature(moveXLeft, map);
-                    CollectItem(moveXLeft, map);
                     CheckGameState(map, moveXLeft, moveYLeft); 
                     break;
 
@@ -191,31 +136,36 @@ namespace TextRPG_OOP_
                     Environment.Exit(0);
                     break;
             }
+            itemManager.CheckItemPositions(player);
+        }
+        public void HitCreature(int moveDirection, Map map)
+        {
+            player.Attack(moveDirection, map);
         }
 
         private void CheckGameState(Map map, int moveX, int moveY)
         {
-            char tile = map.activeMap[moveY, moveX]; // reads new position char
+        //    Debug.WriteLine(map.activeMap[moveX, moveY]);
+        //    char tile = map.activeMap[moveY, moveX]; // reads new position char
 
-            if (tile == '$')
-            {
-                // Ends game when touching the "Grail"
-                gameWon = true;
-                gameIsOver = true;
-            }
-            else if (tile == '~')
-            {
-                // Advances to next level
-                map.levelNumber += 1;
-                map.ChangeLevels();
-                SetPlayerPosition(map.playerX, map.playerY);
-            }
-            else if (tile == '*')
-            {
-                // Hurts player
-                healthSystem.health -= 1;
-            }
+        //    if (tile == '$')
+        //    {
+        //        // Ends game when touching the "Grail"
+        //        //gameWon = true;
+        //        //gameIsOver = true;
+        //    }
+        //    else if (tile == '~')
+        //    {
+        //        // Advances to next level
+        //        map.levelNumber += 1;
+        //        map.ChangeLevels();
+        //        player.SetPlayerPosition(map.playerX, map.playerY);
+        //    }
+        //    else if (tile == '*')
+        //    {
+        //        // Hurts player
+        //        player.healthSystem.health -= 1;
+        //    }
         }
-
     }
 }
